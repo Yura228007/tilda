@@ -91,6 +91,7 @@
                     index: t,
                     img: e.img,
                     name: e.name,
+                    description: e.description,
                     amount: e.amount,
                     sku: e.sku,
                     quantity: e.quantity,
