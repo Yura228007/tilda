@@ -41,7 +41,7 @@
             o.querySelector(`${n}__img .tn-atom`).setAttribute("style", `background-image:url('${e.img}');`), o.querySelector(`${n}__description .tn-atom`).innerText = e.description, o.querySelector(`${n}__name .tn-atom`).innerText = e.name, o.querySelector(`${n}__sku .tn-atom`).innerText = e.sku, o.querySelector(`${n}__quantity [name="quantity"]`).value = e.quantity, o.querySelector(`${n}__amount .tn-atom`).innerText = `${t} ${new Intl.NumberFormat("ru-RU").format(e.amount)} ${r}`;
             let c = o.querySelector(`${n}__name .tn-atom`);
             let desc = o.querySelector(`${n}__description .tn-atom`);
-            return nameWrapper = `<a href=${e.url} style='color: inherit;text-decoration: inherit;'>${c.innerHTML}</a>`, c.innerHTML = nameWrapper, descriptionWrapper = `<a href=${e.url} style='color: inherit;text-decoration: inherit;'>${desc.innerHTML}</a>`, desc.innerHTML = descriptionWrapper,o.querySelector(`${n}__quantity .t-inputquantity__btn-plus`).addEventListener("click", () => {
+            return nameWrapper = `<a href=${e.url} style='color: inherit;text-decoration: inherit;'>${c.innerHTML}</a>`, c.innerHTML = nameWrapper, desc.innerHTML = `<a href=${e.url} style='color: inherit;text-decoration: inherit;'>${desc.innerHTML}</a>`,o.querySelector(`${n}__quantity .t-inputquantity__btn-plus`).addEventListener("click", () => {
                 g(e.index)
             }), o.querySelector(`${n}__quantity .t-inputquantity__btn-minus`).addEventListener("click", () => {
                 b(e)
