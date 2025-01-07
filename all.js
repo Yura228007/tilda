@@ -148,65 +148,138 @@
             return t || r
         },
         A = () => {
-            let e = document.querySelectorAll(`${u} .t-input-block input, ${u} .t-input-block textarea, ${u} .t-input-block select`),
-                t = new Set;
-            e.forEach(e => {
-                let r = e.getAttribute("name");
-                if (!r) return !0;
-                t.add(r)
-            }), t.forEach(e => {
-                let t = document.querySelectorAll(`${u} [name="${e}"]`),
-                    r = "sf" === e ? document.querySelectorAll('.t706__orderform [data-field-type="sf"] input') : document.querySelectorAll(`.t706__orderform [name="${e}"]`),
-                    a = x(t[0]),
-                    o = x(r[0]),
-                    c = L(a),
-                    n = L(o);
-                if (c !== n && !["dl", "sf"].includes(n)) return console.error("Разные типы полей. Перепроверьте, одинаковые ли вы проставили variable для полей зеро блока и корзины", t[0], r[0]);
-                if (t[0].onkeydown = function(e) {
-                        if ("Enter" == e.key) {
-                            let t = document.querySelector(`${u} [type="submit"]`);
-                            t.dispatchEvent(new Event("click"))
-                        }
-                    }, ["em", "ph", "nm", "in", "ta", "sb", "da", "tm", "ur", "sf"].includes(c)) return "tm" === c ? (t[0].addEventListener("keyup", e => {
-                    r[0].value = e.target.value
-                }), !0) : (t[0].addEventListener("change", e => {
-                    if (r[0].value = e.target.value, "ph" === c) {
+    let e = document.querySelectorAll(`${u} .t-input-block input, ${u} .t-input-block textarea, ${u} .t-input-block select`),
+        t = new Set;
+    
+    e.forEach(e => {
+        let r = e.getAttribute("name");
+        if (!r) return !0;
+        t.add(r);
+    });
+
+    t.forEach(e => {
+        let t = document.querySelectorAll(`${u} [name="${e}"]`),
+            r = "sf" === e ? document.querySelectorAll('.t706__orderform [data-field-type="sf"] input') : document.querySelectorAll(`.t706__orderform [name="${e}"]`),
+            a = x(t[0]),
+            o = x(r[0]),
+            c = L(a),
+            n = L(o);
+
+        if (c !== n && !["dl", "sf"].includes(n)) {
+            return console.error("Разные типы полей. Перепроверьте, одинаковые ли вы проставили variable для полей зеро блока и корзины", t[0], r[0]);
+        }
+
+        // Обработчик для нажатия клавиши Enter
+        t[0].onkeydown = function(e) {
+            if ("Enter" == e.key) {
+                let t = document.querySelector(`${u} [type="submit"]`);
+                t.dispatchEvent(new Event("click"));
+            }
+        };
+
+        // Обработка для различных типов полей
+        if (["em", "ph", "nm", "in", "ta", "sb", "da", "tm", "ur", "sf", "description"].includes(c)) {
+            if ("tm" === c) {
+                t[0].addEventListener("keyup", e => {
+                    r[0].value = e.target.value;
+                });
+                return !0;
+            } else {
+                t[0].addEventListener("change", e => {
+                    r[0].value = e.target.value;
+                    if ("ph" === c) {
                         let t = e.target.parentNode.querySelector('.js-phonemask-result[type="hidden"]');
-                        t && e.target.value !== t.value && t.dispatchEvent(new Event("change"))
+                        t && e.target.value !== t.value && t.dispatchEvent(new Event("change"));
                     }
-                }), !0);
-                if (["cb"].includes(c)) return t[0].addEventListener("change", e => {
-                    r[0].checked = e.target.checked
-                }), !0;
-                if (["rd", "ri", "dl"].includes(c)) {
-                    if ("cb" === o.dataset.fieldRadcb) {
-                        if (!t[0]) return console.error("Не смогли найти инпут чекбоксов для переменной:", e);
-                        let l = t[0].value,
-                            i = new MutationObserver(e => {
-                                e.forEach(e => {
-                                    "attributes" === e.type && "value" === e.attributeName && t[0].value !== l && (l = t[0].value, t[0].dispatchEvent(new Event("change")))
-                                })
-                            });
-                        i.observe(t[0], {
-                            attributes: !0
-                        }), t[0].addEventListener("change", e => r[0].value = t[0].value)
-                    }
-                    return t.forEach(e => {
-                        e.addEventListener("change", t => {
-                            let r = e.parentNode.parentNode.querySelector(".t-input__own-answer"),
-                                a = o.querySelector(".t-input-ownanswer");
-                            if (r) {
-                                if (!a) return console.error("Не смогли найти инпут своего варианта ответа в корзине");
-                                r.addEventListener("change", e => a.value = e.target.value)
-                            }
-                            let c = document.querySelector(`.t706__orderform [value*="${e.value}"]`);
-                            if (!c) return console.error("Не смогли найти радиокнопки в корзине с таким значением:", e.value);
-                            c.checked = t.target.checked, c.dispatchEvent(new Event("change"))
+                });
+                return !0;
+            }
+        }
+
+        // Обработка для чекбоксов
+        if (["cb"].includes(c)) {
+            return t[0].addEventListener("change", e => {
+                r[0].checked = e.target.checked;
+            }), !0;
+        }
+
+        // Обработка для радиокнопок и других типов
+        if (["rd", "ri", "dl"].includes(c)) {
+            if ("cb" === o.dataset.fieldRadcb) {
+                if (!t[0]) return console.error("Не смогли найти инпутДля добавления описания продукта в функцию `A` вам нужно будет внести следующие изменения:
+
+
+A = () => {
+    let e = document.querySelectorAll(`${u} .t-input-block input, ${u} .t-input-block textarea, ${u} .t-input-block select`),
+        t = new Set;
+
+    e.forEach(e => {
+        let r = e.getAttribute("name");
+        if (!r) return !0;
+        t.add(r)
+    });
+
+    t.forEach(e => {
+        let t = document.querySelectorAll(`${u} [name="${e}"]`),
+            r = "sf" === e ? document.querySelectorAll('.t706__orderform [data-field-type="sf"] input') : document.querySelectorAll(`.t706__orderform [name="${e}"]`),
+            a = x(t[0]),
+            o = x(r[0]),
+            c = L(a),
+            n = L(o);
+
+        if (c !== n && !["dl", "sf"].includes(n)) return console.error("Разные типы полей. Перепроверьте, одинаковые ли вы проставили variable для полей зеро блока и корзины", t[0], r[0]);
+
+        if (t[0].onkeydown = function(e) {
+            if ("Enter" == e.key) {
+                let t = document.querySelector(`${u} [type="submit"]`);
+                t.dispatchEvent(new Event("click"))
+            }
+        }, ["em", "ph", "nm", "in", "ta", "sb", "da", "tm", "ur", "sf"].includes(c)) return "tm" === c ? (t[0].addEventListener("keyup", e => {
+            r[0].value = e.target.value
+        }), !0) : (t[0].addEventListener("change", e => {
+            if (r[0].value = e.target.value, "ph" === c) {
+                let t = e.target.parentNode.querySelector('.js-phonemask-result[type="hidden"]');
+                t && e.target.value !== t.value && t.dispatchEvent(new Event("change"))
+            }
+        }), !0);
+
+        if (["cb"].includes(c)) return t[0].addEventListener("change", e => {
+            r[0].checked = e.target.checked
+        }), !0;
+
+        if (["rd", "ri", "dl"].includes(c)) {
+            if ("cb" === o.dataset.fieldRadcb) {
+                if (!t[0]) return console.error("Не смогли найти инпут чекбоксов для переменной:", e);
+                let l = t[0].value,
+                    i = new MutationObserver(e => {
+                        e.forEach(e => {
+                            "attributes" === e.type && "value" === e.attributeName && t[0].value !== l && (l = t[0].value, t[0].dispatchEvent(new Event("change")))
                         })
-                    }), !0
-                }
-            })
-        },
+                    });
+                i.observe(t[0], {
+                    attributes: !0
+                }), t[0].addEventListener("change", e => r[0].value = t[0].value)
+            }
+            return t.forEach(e => {
+                e.addEventListener("change", t => {
+                    let r = e.parentNode.parentNode.querySelector(".t-input__own-answer"),
+                        a = o.querySelector(".t-input-ownanswer");
+                    if (r) {
+                        if (!a) return console.error("Не смогли найти инпут своего варианта ответа в корзине");
+                        r.addEventListener("change", e => a.value = e.target.value)
+                    }
+                    let c = document.querySelector(`.t706__orderform [value*="${e.value}"]`);
+                    if (!c) return console.error("Не смогли найти радиокнопки в корзине с таким значением:", e.value);
+                    c.checked = t.target.checked, c.dispatchEvent(new Event("change"))
+                })
+            }), !0
+        }
+
+        // Добавление описания продукта
+        let productDescription = 'This is a high-quality product with great features. It is designed for [target audience] and provides the following benefits: [list of benefits].';
+        o.querySelector(`${u}__description .tn-atom`).innerText = e.description;
+    })
+},
         T = () => {
             let e = window.tcart_success;
             Object.defineProperty(window, "tcart_success", {
